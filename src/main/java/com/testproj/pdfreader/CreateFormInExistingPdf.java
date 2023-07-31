@@ -2,7 +2,9 @@ package com.testproj.pdfreader;
 
 
 import com.itextpdf.forms.fields.TextFormFieldBuilder;
+import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.forms.PdfAcroForm;
 import com.itextpdf.forms.fields.PdfTextFormField;
@@ -17,18 +19,19 @@ import com.itextpdf.layout.renderer.IRenderer;
 
 import java.io.File;
 
-public class CreateFormInTable {
+public class CreateFormInExistingPdf {
     public static final String DEST = "./target/sandbox/acroforms/create_form_in_table.pdf";
-
+    public static final String SRC = "./src/main/resources/pdfs/blank.pdf";
     public static void main(String[] args) throws Exception {
         File file = new File(DEST);
         file.getParentFile().mkdirs();
 
-        new CreateFormInTable().manipulatePdf(DEST);
+        new CreateFormInExistingPdf().manipulatePdf(DEST);
     }
 
     protected void manipulatePdf(String dest) throws Exception {
-        PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
+        PdfDocument pdfDoc = new PdfDocument(new PdfReader(SRC), new PdfWriter(dest));
+
         Document doc = new Document(pdfDoc);
 
         Table table = new Table(UnitValue.createPercentArray(2)).useAllAvailableWidth();
@@ -37,7 +40,7 @@ public class CreateFormInTable {
         table.addCell(cell);
 
         cell = new Cell();
-        cell.setNextRenderer(new CreateFormFieldRenderer(cell, "name"));
+        cell.setNextRenderer(new CreateFormFieldRenderer(cell, "name1"));
         table.addCell(cell);
 
         cell = new Cell().add(new Paragraph("Address"));
@@ -63,6 +66,8 @@ public class CreateFormInTable {
         table.addCell(cell);
 
         doc.add(table);
+
+        pdfDoc.addNewPage(PageSize.A4);
 
         doc.close();
     }
