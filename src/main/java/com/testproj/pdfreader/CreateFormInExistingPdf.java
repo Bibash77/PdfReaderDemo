@@ -9,9 +9,11 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.forms.PdfAcroForm;
 import com.itextpdf.forms.fields.PdfTextFormField;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.AreaBreakType;
 import com.itextpdf.layout.properties.UnitValue;
 import com.itextpdf.layout.renderer.CellRenderer;
 import com.itextpdf.layout.renderer.DrawContext;
@@ -33,6 +35,8 @@ public class CreateFormInExistingPdf {
         PdfDocument pdfDoc = new PdfDocument(new PdfReader(SRC), new PdfWriter(dest));
 
         Document doc = new Document(pdfDoc);
+
+        doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
         Table table = new Table(UnitValue.createPercentArray(2)).useAllAvailableWidth();
 
