@@ -71,8 +71,6 @@ public class CreateFormInExistingPdf {
 
         doc.add(table);
 
-        pdfDoc.addNewPage(PageSize.A4);
-
         doc.close();
     }
 
