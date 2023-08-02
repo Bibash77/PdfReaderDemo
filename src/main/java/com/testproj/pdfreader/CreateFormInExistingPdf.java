@@ -23,7 +23,7 @@ import java.io.File;
 
 public class CreateFormInExistingPdf {
     public static final String DEST = "./target/sandbox/acroforms/create_form_in_table.pdf";
-    public static final String SRC = "./src/main/resources/pdfs/form.pdf";
+    public static final String SRC = "./src/main/resources/pdfs/blank.pdf";
     public static void main(String[] args) throws Exception {
         File file = new File(DEST);
         file.getParentFile().mkdirs();
