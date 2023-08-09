@@ -10,20 +10,21 @@ import java.util.Map;
 
 public class ConditionalModification {
     public static void main(String[] args) throws IOException {
-        final String SRC = "./src/main/resources/pdfs/hello_encrypted.pdf";
+        final String SRC = "./src/main/resources/pdfs/report.pdf";
 
         PdfReader pdfReader = new PdfReader(SRC);
+
         PdfDocument pdfDocument = new PdfDocument(pdfReader);
         int perm = (int) pdfReader.getPermissions();
 
 //        long permissions = pdfDocument.getReader().getPermissions();
+        System.out.println(PdfEncryptor.isFillInAllowed(perm));
+        if (PdfEncryptor.isFillInAllowed((int) perm)) {
+            System.out.println("Allow degraded printing");
+        }
+//        String verbose = PdfEncryptor.getPermissionsVerbose(perm);
 
-//        if (PdfEncryptor.isFillInAllowed((int) perm)) {
-//            System.out.println("Allow degraded printing");
-//        }
-        String verbose = PdfEncryptor.getPermissionsVerbose(perm);
-
-        System.out.println(verbose);
+//        System.out.println(verbose);
 
 //        System.out.println(perm);
 
