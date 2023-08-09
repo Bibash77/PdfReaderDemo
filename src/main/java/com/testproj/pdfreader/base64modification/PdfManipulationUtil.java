@@ -2,7 +2,9 @@ package com.testproj.pdfreader.base64modification;
 
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.properties.AreaBreakType;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,6 +29,7 @@ public class PdfManipulationUtil {
         // Add new page with custom content
         pdfDoc.addNewPage();
         Document document = new Document(pdfDoc);
+        document.add(new AreaBreak(AreaBreakType.LAST_PAGE));
         document.add(new Paragraph("PDF Has been modified"));
         
         // Close PDF document

@@ -31,7 +31,7 @@ public class CreateFormInExistingPdf {
         new CreateFormInExistingPdf().manipulatePdf(DEST);
     }
 
-    protected void manipulatePdf(String dest) throws Exception {
+    protected static void manipulatePdf(String dest) throws Exception {
         PdfDocument pdfDoc = new PdfDocument(new PdfReader(SRC), new PdfWriter(dest));
 
         Document doc = new Document(pdfDoc);
@@ -81,27 +81,5 @@ public class CreateFormInExistingPdf {
     }
 
 
-    private class CreateFormFieldRenderer extends CellRenderer {
-        protected String fieldName;
 
-        public CreateFormFieldRenderer(Cell modelElement, String fieldName) {
-            super(modelElement);
-            this.fieldName = fieldName;
-        }
-        @Override
-        public IRenderer getNextRenderer() {
-            return new CreateFormFieldRenderer((Cell) modelElement, fieldName);
-        }
-
-        @Override
-        public void draw(DrawContext drawContext) {
-            super.draw(drawContext);
-
-            PdfTextFormField field = new TextFormFieldBuilder(drawContext.getDocument(), fieldName)
-                    .setWidgetRectangle(getOccupiedAreaBBox()).createText();
-            field.setValue("");
-            PdfAcroForm form = PdfAcroForm.getAcroForm(drawContext.getDocument(), true);
-            form.addField(field);
-        }
-    }
 }
