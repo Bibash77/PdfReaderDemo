@@ -2,52 +2,40 @@ package com.testproj.pdfreader.pdfPermission;
 
 import com.itextpdf.forms.PdfAcroForm;
 import com.itextpdf.forms.fields.PdfFormField;
-import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PdfFieldHandler {
 
     public static final String SRC = "./src/main/resources/pdfs/form.pdf";
-
     public static final String DEST = "./target/sandbox/security/formfilled.pdf";
-
 
     public static void main(String[] args) {
         try {
-
             File file = new File(DEST);
             file.getParentFile().mkdirs();
 
-            // Load the existing PDF document
             PdfDocument pdfDocument = new PdfDocument(new PdfReader(SRC), new PdfWriter(file));
 
-            // Get the AcroForm from the PDF document
             PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDocument, true);
 
-            // Check if the fields exist
-            PdfFormField nameField = form.getField("Name");
-            PdfFormField signatureField = form.getField("signature");
+            List<String> invalidFormFields = new ArrayList<>();
+            checkAndFillField(form, "ManagerSignature", "sk", invalidFormFields);
+            checkAndFillField(form, "ManagerSignatureDate", "12/12/2022", invalidFormFields);
+            checkAndFillField(form, "ClientSignature2", "cs", invalidFormFields);
+            checkAndFillField(form, "ClientSignature Date2", "cd", invalidFormFields);
+            checkAndFillField(form, "characteristicsTextBox2", "12/12/2022", invalidFormFields);
+            checkAndFillField(form, "characteristicsTextBox3", "12/12/2022", invalidFormFields);
+            checkAndFillField(form, "Level2_Internal", "12/12/2022", invalidFormFields);
 
-            if (nameField != null && signatureField != null) {
-                // Fields exist, fill them
-                nameField.setValue("John Doe");
-                signatureField.setValue("Signature Image Here"); // You can add the signature image here
-
-                // Optionally flatten the form fields if needed
-                form.flattenFields();
-            } else {
-                // Fields do not exist, add a paragraph to another page
-                PdfPage newPage = pdfDocument.addNewPage();
-                PdfCanvas canvas = new PdfCanvas(newPage);
-                canvas.beginText().setFontAndSize(PdfFontFactory.createFont(), 12)
-                        .moveText(50, pdfDocument.getDefaultPageSize().getTop() - 50)
-                        .showText("An issue occurred. Fields not found.")
-                        .endText();
+            if (!invalidFormFields.isEmpty()) {
+                addErrorMessagePage(pdfDocument, invalidFormFields);
             }
 
             pdfDocument.close();
@@ -55,4 +43,41 @@ public class PdfFieldHandler {
             e.printStackTrace();
         }
     }
+
+    private static void checkAndFillField(PdfAcroForm form, String fieldName, String value, List<String> invalidFields) {
+        PdfFormField field = form.getField(fieldName);
+        if (field != null) {
+            field.setValue(value);
+        } else {
+            invalidFields.add(fieldName);
+        }
+    }
+
+    private static void addErrorMessagePage(PdfDocument pdfDocument, List<String> invalidFormFields) throws IOException {
+        PdfPage newPage = pdfDocument.addNewPage();
+        PdfCanvas canvas = new PdfCanvas(newPage);
+
+        float x = 50;
+        float y = pdfDocument.getDefaultPageSize().getTop() - 50;
+        float fontSize = 12;
+        float lineHeight = 14; // Adjust this value to control line height
+
+        canvas.beginText()
+                .setFontAndSize(PdfFontFactory.createFont(), fontSize)
+                .moveText(x, y);
+
+        String errorMessage = "An issue occurred. The following fields have errors:";
+        canvas.showText(errorMessage);
+        canvas.newlineShowText(errorMessage);
+
+        for (String invalidField : invalidFormFields) {
+            canvas.newlineShowText("• " + invalidField); // Bullet-point list item
+        }
+
+        canvas.endText();
+    }
+
+
+
+
 }
