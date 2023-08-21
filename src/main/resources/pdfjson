@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "personalInfo": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "object",
+          "properties": {
+            "firstName": { "type": "string" },
+            "middleName": { "type": "string" },
+            "lastName": { "type": "string" },
+            "dateOfBirth": { "type": "string" },
+            "daytimePhoneNumber": { "type": "string" },
+            "maritalStatus": { "type": "string" },
+            "numberOfStatus": { "type": "number" },
+            "numberOfDependents": { "type": "number" },
+            "employmentStatus": { "type": "string" },
+            "employerOrBusiness": { "type": "string" },
+            "positionOrTitle": { "type": "string" },
+            "partyID": { "type": "string" },
+            "partyIdTypeCode": { "type": "string" },
+            "emailAddress": { "type": "string" }
+          }
+        },
+        "secondary": {
+          "type": "object",
+          "properties": {
+            "firstName": { "type": "string" },
+            "middleName": { "type": "string" },
+            "lastName": { "type": "string" },
+            "dateOfBirth": { "type": "string" },
+            "daytimePhoneNumber": { "type": "string" },
+            "maritalStatus": { "type": "string" },
+            "numberOfStatus": { "type": "number" },
+            "numberOfDependents": { "type": "number" },
+            "employmentStatus": { "type": "string" },
+            "employerOrBusiness": { "type": "string" },
+            "positionOrTitle": { "type": "string" },
+            "partyID": { "type": "string" },
+            "partyIdTypeCode": { "type": "string" },
+            "emailAddress": { "type": "string" }
+          }
+        }
+      }
+    },
+    "financialInfo": {
+      "type": "object",
+      "properties": {
+        "householdAnnualIncomeEarnings": { "type": "number" },
+        "householdLiquidAssets": { "type": "number" },
+        "householdNetWorth": { "type": "number" }
+      }
+    },
+    "priorTradingActivityAndInvestmentExperience": {
+      "type": "object",
+      "properties": {
+        "priorTradingActivity": { "type": "string" },
+        "investmentExperience": {
+          "type": "object",
+          "properties": {
+            "stocks": { "type": "string" },
+            "options": { "type": "string" },
+            "bonds": { "type": "string" },
+            "indexes": { "type": "string" },
+            "margin": { "type": "string" },
+            "commodities": { "type": "string" },
+            "other": { "type": "string" }
+          }
+        }
+      }
+    },
+    "affiliationAndAuthorizationInformation": {
+      "type": "object",
+      "properties": {
+        "ownRestrictedStock": { "type": "string" },
+        "restrictedStockCompany": { "type": "string" },
+        "controlPerson": { "type": "string" },
+        "controlPersonCompany": { "type": "string" }
+      }
+    },
+    "desiredTradingLevel": {
+      "type": "object",
+      "properties": {
+        "tradingLevelDesired": { "type": "string" }
+      }
+    },
+    "investmentObjectivesInformation": {
+      "type": "object",
+      "properties": {
+        "incomeIndicator": { "type": "string" },
+        "hedgeIndicator": { "type": "string" },
+        "speculationIndicator": { "type": "string" }
+      }
+    },
+    "financialInfo": {
+      "type": "object",
+      "properties": {
+        "financialInfoUpdateReason": { "type": "string" }
+      }
+    },
+    "disclosuresInformation": {
+      "type": "object",
+      "properties": {
+        "optionDisclosureDates": { "type": "string" },
+        "specialStatementsForL5Checked": { "type": "string" },
+        "specialStatementsForL5Dates": { "type": "string" }
+      }
+    }
+  }
+}
